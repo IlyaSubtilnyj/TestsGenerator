@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using TestGeneratorLib;
 
 namespace TestsGeneratorLab
 {
@@ -8,39 +9,16 @@ namespace TestsGeneratorLab
     {
         static async Task Main(string[] args)
         {
-            try
-            {
-
-                await test();
-            } catch (Exception ex)
-            {
-
-            }
-            Console.WriteLine("Hello, World!");
-        }
-
-        public static async Task test()
-        {
-
-            // Simulate an asynchronous operation that takes some time
-            await Task.Delay(2000);
-
-            string code = @"
-                using System;
-
-                public class MyClass
-                {
-                    public void MyMethod()
-                    {
-                        Console.WriteLine(""Hello, Roslyn!"");
-                    }
-                }
-            ";
-
-            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
-            CompilationUnitSyntax root = syntaxTree.GetCompilationUnitRoot();
-
-            Console.WriteLine("Syntax analysis successful!");
+           
+            TestGenerator generator = new TestGenerator();
+            Task task = generator.Process(
+                    new List<string> 
+                    { 
+                        @"D:\workspace\Visual_Studio_workspace\studing_workspace\SppForthLab\TestGeneratorLib\TestClass.cs" 
+                    }, 
+                    @"D:\workspace\Visual_Studio_workspace\studing_workspace\SppForthLab\TestsGeneratorLab\output"
+                );
+            task.Wait();
         }
     }
 }
